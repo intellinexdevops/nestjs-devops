@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './typeorm/Entities/User';
 import { UsersModule } from './users/users.module';
+import { BooksModule } from './books/books.module';
+import { User } from './typeorm/entities/user.entity';
+import { Book } from './typeorm/entities/book.entity';
 
 @Module({
   imports: [
@@ -14,12 +14,11 @@ import { UsersModule } from './users/users.module';
       username: 'root',
       password: '',
       database: 'rememo_db',
-      entities: [User],
+      entities: [User, Book],
       synchronize: true,
     }),
     UsersModule,
+    BooksModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
