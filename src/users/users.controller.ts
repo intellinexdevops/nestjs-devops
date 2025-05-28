@@ -21,7 +21,7 @@ export class UsersController {
   async findAllUsers(@Query() query: PaginationQueryDto) {
     const { limit, offset } = query;
     const [data, total] = await this.userService.findAllUsers(limit!, offset!);
-    if (!data) {
+    if (!data.length) {
       return {
         status: {
           code: 0,
@@ -29,7 +29,12 @@ export class UsersController {
           status: 404,
           timestamp: new Date().toISOString(),
         },
-        data: null,
+        content: {
+          data: null,
+          total,
+          limit: Number(limit),
+          offset: Number(offset),
+        },
       };
     }
     return {
@@ -39,10 +44,12 @@ export class UsersController {
         status: 200,
         timestamp: new Date().toISOString(),
       },
-      data,
-      total,
-      limit: Number(limit),
-      offset: Number(offset),
+      content: {
+        data,
+        total,
+        limit: Number(limit),
+        offset: Number(offset),
+      },
     };
   }
 }

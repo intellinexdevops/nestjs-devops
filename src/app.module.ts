@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+// import { UsersModule } from './users/users.module';
 import { BooksModule } from './books/books.module';
 import { User } from './typeorm/entities/user.entity';
 import { Book } from './typeorm/entities/book.entity';
@@ -9,15 +9,15 @@ import { Book } from './typeorm/entities/book.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'rememo_db',
+      host: process.env.NEST_DATABASE_HOST,
+      port: Number(process.env.NEST_DATABASE_PORT),
+      username: process.env.NEST_DATABASE_USER,
+      password: process.env.NEST_DATABASE_PASS,
+      database: process.env.NEST_DATABASE_NAME,
       entities: [User, Book],
       synchronize: true,
     }),
-    UsersModule,
+    // UsersModule,
     BooksModule,
   ],
 })
